@@ -1,0 +1,69 @@
+services:
+  python:
+    container_name: python
+    build: ./python
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./app:/usr/src/app
+    tty: true
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.4
+    environment:
+      - MYSQL_USER=db_user           # 初期作成ユーザー名
+      - MYSQL_PASSWORD=P@ssw0rd      # 初期作成ユーザーのパスワード
+      - MYSQL_DATABASE=test_db       # 初期作成データベース名
+      - MYSQL_ROOT_PASSWORD=P@ssw0rd # rootユーザーのパスワード
+      - TZ=Asia/Tokyo                # タイムゾーン
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/sql:/tmp/sql
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:11.8
+    environment:
+      - MARIADB_USER=db_user           # 初期作成ユーザー名
+      - MARIADB_PASSWORD=P@ssw0rd      # 初期作成ユーザーのパスワード
+      - MARIADB_DATABASE=test_db       # 初期作成データベース名
+      - MARIADB_ROOT_PASSWORD=P@ssw0rd # rootユーザーのパスワード
+      - TZ=Asia/Tokyo                  # タイムゾーン
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./mariadb/init:/docker-entrypoint-initdb.d
+
+  postgresql:
+    container_name: postgresql
+    build: ./postgresql
+    environment:
+      - POSTGRES_USER=db_user      # 初期作成ユーザー名
+      - POSTGRES_PASSWORD=P@ssw0rd # 初期作成ユーザーのパスワード
+      - POSTGRES_DB=test_db        # 初期作成データベース名
+      - TZ=Asia/Tokyo              # タイムゾーン
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgresql/init:/docker-entrypoint-initdb.d
+
+  mssql:
+    container_name: mssql
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    environment:
+      - ACCEPT_EULA=Y                  # エンドユーザーライセンス契約の承諾
+      - MSSQL_PID=Developer            # 利用ライセンス：Developer Edition
+      - MSSQL_LCID=1041                # 使用する言語：日本語
+      - TZ=Asia/Tokyo                  # タイムゾーン
+      - MSSQL_COLLATION=Japanese_CI_AS # 文字列照会順序：日本語 (日本 XJIS)
+      - MSSQL_SA_PASSWORD=P@ssw0rd     # saユーザーのパスワード
+      - MSSQL_DATABASE=test_db         # 初期作成データベース名
+    ports:
+      - '1433:1433'
+    volumes:
+      - ./mssql/init:/docker-initdb.d
+    user: root
+    command: ["/bin/bash", "-c", "chmod +x /docker-initdb.d/entrypoint.sh && /docker-initdb.d/entrypoint.sh"]
