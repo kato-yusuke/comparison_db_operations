@@ -11,8 +11,6 @@
 
 ## 今回やる事
 
- contents
-
 - Dockerで構築する（最低限の設定のみ）
 - DB接続方法
 - 便利コマンド
@@ -120,8 +118,9 @@ docker-compose.ymlを参照
     \d test_table_1
 
     -- テーブルのクリエイト文を表示
-    SHOW CREATE TABLE {table_name};
-    SHOW CREATE TABLE test_table_1;
+    -- クエリではなくpg_dumpコマンドを使用して確認する
+    -- docker-compose exec postgresql pg_dump -h localhost -p 5432 -U db_user -d test_db -s -t {table_name}
+    -- docker-compose exec postgresql pg_dump -h localhost -p 5432 -U db_user -d test_db -s -t test_table_1
 
     -- テーブルのインデックス情報を表示
     SELECT * FROM pg_indexes WHERE tablename = '{table_name}';
@@ -249,7 +248,8 @@ docker-compose.ymlを参照
     # 実行計画の取得
     docker-compose exec mysql bash -c "mysql -u db_user -pP@ssw0rd test_db -vvv < /tmp/sql/1_test_explain.sql > /tmp/sql/output_1_test_explain.txt"
     # SQL実行
-    docker-compose exec mysql bash -c "mysql -u db_user -pP@ssw0rd test_db -vvv < /tmp/sql/2_test_select.sql > /tmp/sql/output_2_test_select.txt"
+    docker-compose exec mysql bash -c "mysql -u db_user -pP@ssw0rd test_db -vvv < /tmp/sql/2_test_select.sql > /dev/null"
+    # docker-compose exec mysql bash -c "mysql -u db_user -pP@ssw0rd test_db -vvv < /tmp/sql/2_test_select.sql > /tmp/sql/output_2_test_select.txt"
     # 実行時間の取得
     docker-compose exec mysql bash -c "mysql -u root -pP@ssw0rd test_db -vvv < /tmp/sql/3_select_statements_history.sql > /tmp/sql/output_3_select_statements_history.txt"
     ```
