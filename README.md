@@ -2,12 +2,21 @@
 
 ## 比較対象
 
-|DBサーバ|バージョン|
+|DBサーバ|バージョン|DBの説明|
+|-|-|-|
+|MySQL|8.4|Oracle社が管理しているオープンソースのデータベース、Webアプリ全般で良く使われる、商用ライセンスもある|
+|MariaDB|11.8|MySQL5.5から派生した完全なオープンソースのデータベース、最新機能なども豊富|
+|PostgreSQL|17.9|オープンソースのデータベース、複雑なクエリを処理するのに向いている|
+|Microsoft SQL Server|2022|Microsoft社の商用データベース、Windowsベースのシステムで良く使われる|
+
+補足
+
+|DBサーバ|DBの説明|
 |-|-|
-|MySQL|8.4|
-|MariaDB|11.8|
-|PostgreSQL|17.9|
-|Microsoft SQL Server|2022|
+|Oracle Database|Oracle社の商用データベース、信頼性や堅牢性が高い、料金も高い|
+|Amazon Aurora MySQL|AWS社のデータベースサービス、可用性や拡張性が高い、実行速度が速い、MySQLと互換性がある|
+|Amazon Aurora PostgreSQL|AWS社のデータベースサービス、可用性や拡張性が高い、実行速度が速い、PostgreSQLと互換性がある|
+|Amazon DynamoDB|AWS社のNoSQLデータベース、可用性や拡張性が高い、実行速度が速い、RDSとは使い勝手が別物|
 
 ## 今回やる事
 
